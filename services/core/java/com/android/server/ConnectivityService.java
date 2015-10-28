@@ -254,6 +254,9 @@ public class ConnectivityService extends IConnectivityManager.Stub
     private static final int ENABLED  = 1;
     private static final int DISABLED = 0;
 
+    // Privoxy variables
+    private static final String PRIVOXY_SERVICE = "privoxy";
+
     // DNS Encryption variables
     private static final String DNSCRYPT_SERVICE = "dnscrypt-proxy";
     private static final String LOOPBACK_ADDR = "127.0.0.1";
@@ -2959,8 +2962,12 @@ public class ConnectivityService extends IConnectivityManager.Stub
                     return;
                 }
             }
+            SystemProperties.set("ctl.start", DNSCRYPT_SERVICE);
             ProxyInfo p = new ProxyInfo(data[0], proxyPort, "");
             setGlobalProxy(p);
+        } else {
+            SystemProperties.set("ctl.stop", DNSCRYPT_SERVICE);
+            setGlobalProxy(null);
         }
     }
 
